@@ -5,4 +5,5 @@ urlpatterns = [
     path('api/', include('management.appUrls.gUrls')),
     path('api/', include('management.appUrls.sUrls')),
     path('api/', include('management.appUrls.markUrls')),
+    path('api/', include('management.appUrls.parentDetailsUrls'))
 ]

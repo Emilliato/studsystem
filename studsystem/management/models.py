@@ -32,7 +32,7 @@ class ParentDetails(models.Model):
     cell = models.CharField(max_length=25, blank=True, null=True)
     email = models.CharField(max_length=25, blank=True, null=True)
     occupation = models.CharField(max_length=25, blank=True, null=True)
-    student_details = models.ForeignKey('StudentDetails', models.CASCADE)
+    student = models.ForeignKey('Student', models.CASCADE)
 
     class Meta:
         db_table = 'parent_details'
@@ -47,7 +47,8 @@ class Student(models.Model):
 
     class Meta:
         db_table = 'student'
-
+    def __str__(self):
+        return '\t\t\t'.join([self.student_name, self.student_surname, self.student_number])
 
 
 class StudentAddress(models.Model):
@@ -56,7 +57,7 @@ class StudentAddress(models.Model):
     location = models.CharField(max_length=25, blank=True, null=True)
     town = models.CharField(max_length=25, blank=True, null=True)
     province = models.CharField(max_length=25, blank=True, null=True)
-    student_details = models.ForeignKey('StudentDetails', models.CASCADE)
+    student = models.ForeignKey('Student', models.CASCADE)
 
     class Meta:
         db_table = 'student_address'
