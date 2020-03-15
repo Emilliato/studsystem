@@ -1,0 +1,65 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Demo</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" type="text/css" href="{% static "management/css/styles.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "management/css/bootstrap.min.css" %}" >
+    <link rel="stylesheet" type="text/css" href="{% static "management/css/bootstrap.css" %}" >
+    <link href="{%static "dist/css/bootstrap.min.css"%}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "management/css/dashboard.css" %}">
+    <link rel="stylesheet" href=" {% static "management/css/footer.css"%} ">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body class="faint">
+  <app-root></app-root>
+  <div class="card  card-padding">
+      <div class="card-header">
+          <h1>Grades</h1>
+      </div>
+      <div class="card-body card-padding">
+        <table class="table  table-hover  ">
+            <thead>
+              <tr style="background-color:#3F4093; border-radius:10px;"class="p">
+                <th class= "table-bordered"scope="col-1" style="color: white;">Grade</th>
+                <th class= "table-bordered"scope="col-1" style="color: white;">Year</th>
+                <th class= "table-bordered"scope="col" style="color: white;padding-left:0.5%;" >Term</th>
+                <th class= "table-bordered"scope="col" style="color: white;padding-left:0.5%;" >Number of Students</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if grades %}
+                {% for grade in grades%}
+
+                    <tr>
+                        <td class= "table-bordered">  {{grade.name}}</td>
+                        <td class= "table-bordered">  {{grade.grade_year}}</td>
+                        <td class= "table-bordered">  {{grade.term}}</td>
+                        <td class= "table-bordered">  {{grade.number_of_students}}</td>
+                    </tr>
+                {% endfor %}
+              {% else %}
+               <p>No Grades Loaded</p>
+              {% endif %}
+            </tbody>
+
+          </table>
+          
+      </div>
+  </div>
+<script src="{% static "management/js/runtime-es2015.js" %}" type="module"></script>
+<script src="{% static "management/js/runtime-es5.js" %}" nomodule defer></script>
+<script src="{% static "management/js/polyfills-es5.js" %}" nomodule defer></script>
+<script src="{% static "management/js/polyfills-es2015.js" %}" type="module"></script>
+<script src="{% static "management/js/styles-es2015.js" %}" type="module"></script>
+<script src="{% static "management/js/styles-es5.js" %}" nomodule defer></script>
+<script src="{% static "management/js/vendor-es2015.js" %}" type="module"></script>
+<script src="{% static "management/js/vendor-es5.js" %}" nomodule defer></script>
+<script src="{% static "management/js/main-es2015.js" %}" type="module"></script>
+<script src="{% static "management/js/main-es5.js" %}" nomodule defer></script>
+</body>
+</html>
