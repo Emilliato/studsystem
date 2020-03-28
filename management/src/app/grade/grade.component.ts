@@ -6,7 +6,7 @@ import { error } from 'protractor';
 
 @Component({
   selector: 'app-grade',
-  templateUrl: '/grade.component.html',
+  templateUrl: './grade.component.html',
   providers: [GradeService]
 })
 
