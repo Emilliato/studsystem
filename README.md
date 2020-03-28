@@ -9,6 +9,8 @@ This is a student management system which is written in Django Rest Framework an
  - Install node 
  - create an Angular CLI using the command 
       npm install -g @angular/cli
+ - reinstall packages
+     npm install reinstall -g
  
 ### Database setup
  - Install xampp
