@@ -5,5 +5,17 @@ This is a student management system which is written in Django Rest Framework an
  - Install pip
  - Setup virtual environment
  - Use pip to install requirements (check setup files)
- - For 
+ - Use pip to install mysql connector (get the latest ) [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient)
+ - Install node 
+ - create an Angular CLI using the command 
+      npm install -g @angular/cli
+ 
+### Database setup
+ - Install xampp
+ - Install xampp, create an empty database and name it student_001 then import the latest sql script from setup
+ 
+### Run the application 
+ - python manage.py runserver 
+ to start the server 
+ 
  
