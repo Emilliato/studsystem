@@ -1,1 +1,43 @@
-<app-grade></app-grade>
+
+<div class="wrapper">
+    <div class="top_navbar nav navbar-fixed">
+        <div class="hamburger">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+        </div>
+        <div class="top_menu">
+          <div class="logo">Howard</div>
+          <ul>
+            <!-- <li><a href="#">
+              <i class="fas fa-users"></i>
+              </a></li> -->
+            <li><a href="#">
+              <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </li>
+          </ul> 
+        </div>
+    </div>
+    <!-- Side Bar -->
+    <div class="sidebar">
+      <ul>
+        <li><a routerLink="/grades" routerLinkActive="active">
+          <span class="icon"><i class="fas fa-layer-group"></i></span>
+          <span class="title">Grades</span></a></li>
+        <li><a routerLink="/students" routerLinkActive="active">
+          <span class="icon"><i class="fas fa-users"></i></span>
+          <span class="title">Students</span>
+          </a>
+        </li>
+        <li><a href="#">
+          <span class="icon"><i class="fas fa-book"></i></span>
+          <span class="title">Subjects</span>
+          </a>
+        </li>
+      </ul>
+  </div>
+  <div class="main_container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
