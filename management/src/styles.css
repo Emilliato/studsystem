@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
+@import '../node_modules/jqwidgets-ng/jqwidgets/styles/jqx.base.css';
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
 
 *{
@@ -10,6 +11,10 @@
     text-decoration: none;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+}
+.test{
+    background-color: black;
+    width: calc(100% - 10px); ;
 }
 
 body{

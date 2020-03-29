@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import {GradeComponent} from './grade/grade.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { jqxGridModule }    from 'jqwidgets-ng/jqxgrid';
 import { from } from 'rxjs';
 import { StudentsComponent } from './students/students.component';
 
@@ -27,6 +27,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    jqxGridModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
