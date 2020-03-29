@@ -1,5 +1,12 @@
 <div class="container">
-    <div class="row card card-padding">
+    <jqxGrid
+    [width]= "'100%'"
+    [source]="dataAdapter" 
+    [columns]="columns"
+    [columnsresize]="true" 
+    [sortable]="true">
+    </jqxGrid>
+    <!-- <div class="row card card-padding">
         <div class="card-header">
             <h2>Grades</h2>
         </div>
@@ -43,5 +50,5 @@
             </div>
         </div>
         
-    </div>
+    </div> -->
 </div>
