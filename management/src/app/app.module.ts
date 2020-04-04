@@ -12,6 +12,7 @@ import { from } from 'rxjs';
 import { AppComponent } from './app.component';
 import {GradeComponent} from './grade/grade.component';
 import { StudentsComponent } from './students/students.component';
+import { GradeModalComponent } from './grade/grade-modal/grade-modal.component';
 
 //Routes
 const appRoutes: Routes = [
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     GradeComponent,
-    StudentsComponent
+    StudentsComponent,
+    GradeModalComponent
     ],
   imports: [
     BrowserModule,
@@ -33,11 +35,15 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     jqxGridModule,
     NgbModule,
+
     //Routes registration
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
     )
+  ],
+  entryComponents:[
+    GradeModalComponent
   ],
 
   providers: [],
