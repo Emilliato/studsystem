@@ -1,7 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
+@import '../node_modules/jqwidgets-ng/jqwidgets/styles/jqx.base.css';
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
+
+
 
 *{
     margin: 0;
@@ -10,6 +13,10 @@
     text-decoration: none;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+}
+.test{
+    background-color: black;
+    width: calc(100% - 10px); ;
 }
 
 body{
@@ -131,7 +138,7 @@ body{
       
 .wrapper .main_container{
         width: (100% - 10px);
-        margin-top: 70px;
+        margin-top: 60px;
         margin-left: 200px;
         padding: 15px;
         transition: all 0.3s ease;
@@ -152,5 +159,31 @@ body{
 .wrapper.trycollapse .main_container{
         width: (100% - 70px);
         margin-left: 70px;
-}      
-  
+} 
+
+.pull-right{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+     
+}
+.main_container .card .card-header{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.main_container .card .card-header .module-name{
+    color: #2e4ead;
+    letter-spacing: 3px;
+}
+.main_container .card .card-header ul{
+    margin-top: 25px;
+    display: flex;
+}
+.main_container .card .card-header ul li button{
+    margin-right: 10px;
+}
