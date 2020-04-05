@@ -184,32 +184,3 @@ body{
     margin-top: 25px;
     display: flex;
 }
-.main_container .card .card-header ul li a{
-      
-    display: block;
-    margin: 0 10px;
-    width: 35px;
-    z-index: 7;
-    height: 35px;
-    line-height: 35px;
-    background-color: grey;
-    text-align: center;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    color: #2e4ead;
-}
-.main_container .card .card-header ul li a i{
-    color: #fff;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-}
-.main_container .card .card-header ul li a:hover{
-    background: green;
-    z-index: 7;
-    color: #fff;
-}
-  
-.main_container .card .card-header ul li a:hover i{
-    color: #fff;
-}

@@ -6,15 +6,16 @@ import { GradeService } from '../grade.service';
 @Component({
   selector: 'app-grade-modal',
   templateUrl: './grade-modal.component.html',
-  styleUrls: ['./grade-modal.component.css'],
   providers:[GradeService]
 })
 export class GradeModalComponent implements OnInit {
 
   tittle= "Add Grade";
   addView= true;
+  updateView=false;
 
   @Input() fromParent;
+
   gradeForm;
   
   constructor(
@@ -34,10 +35,11 @@ export class GradeModalComponent implements OnInit {
   
 
   saveGrade(gradeForm){
-    this.activeModal.close(gradeForm);
+    
     this.gradeService.saveGrade(gradeForm).subscribe(
       data =>{
          alert("Grade Saved" + data);
+         this.activeModal.close(gradeForm);
       },
       error =>{
         console.log(error);

@@ -39,6 +39,7 @@ export class GradeComponent implements OnInit{
     gradeSelected = (grade)=>{
       console.log(grade.grade_id)
     }
+
   //Modal options 
   openModal() {
     const modalRef = this.modalService.open(GradeModalComponent,
@@ -47,7 +48,7 @@ export class GradeComponent implements OnInit{
         windowClass: 'myCustomModalClass',
         backdrop: 'static'
       });
- 
+ //To be used for update scenario
     let data = {
       prop1: 'Some Data',
       prop2: 'From Parent Component',
@@ -56,8 +57,9 @@ export class GradeComponent implements OnInit{
  
     modalRef.componentInstance.fromParent = data;
     modalRef.result.then((result) => {
-      //console.log(result);
-      //this.saveGrade(result);
+     if(result){
+      this.getGridData();
+     }
     }, (reason) => {
     });
   }
