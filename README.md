@@ -16,7 +16,8 @@ Getting started:
     - npm install -g @angular/cli
     - npm install 
     - npm update
-  
+ - reinstall packages
+     npm install reinstall -g
  
 ### Database setup
  - Install xampp
