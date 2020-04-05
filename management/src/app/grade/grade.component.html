@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <div class="module-name">
-            <h2>Grade</h2>
+            <h2>{{title}}</h2>
         </div>
         <ul>
             <li>
@@ -11,15 +11,16 @@
     </div>
 
     <div class="card-body">
-        <jqxGrid
-    [width]= "'100%'"
-    [height]="'180%'"
-    [source]="grades" 
-    [columns]="columns"
-    [columnsresize]="true" 
-    [sortable]="true">
-    </jqxGrid>
-    
+    <ag-grid-angular
+    style="width: 100%; height: 500px;"
+    class="ag-theme-material "
+    [enableRangeSelection]="true"
+    [enableCharts]= "true"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    rowSelection="multiple"
+    >
+</ag-grid-angular>
     </div>
     
 </div>

@@ -5,7 +5,13 @@ import {HttpClientModule} from '@angular/common/http'
 import { RouterModule, Routes } from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { jqxGridModule }    from 'jqwidgets-ng/jqxgrid';
+import { AgGridModule } from 'ag-grid-angular';
+
+import 'ag-grid-enterprise';
+import { ModuleRegistry, AllModules } from '@ag-grid-enterprise/all-modules';
+
+ModuleRegistry.registerModules(AllModules);
+
 import { from } from 'rxjs';
 
 //Componets
@@ -33,8 +39,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    jqxGridModule,
     NgbModule,
+    AgGridModule.withComponents([]),
 
     //Routes registration
     RouterModule.forRoot(
