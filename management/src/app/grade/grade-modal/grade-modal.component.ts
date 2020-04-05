@@ -11,35 +11,71 @@ import { GradeService } from '../grade.service';
 export class GradeModalComponent implements OnInit {
 
   tittle= "Add Grade";
-  addView= true;
-  updateView=false;
-
   @Input() fromParent;
-
-  gradeForm;
+  grade: any;
+  private operation: boolean;
   
   constructor(
     public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private gradeService: GradeService
-  ) { 
-
-    this.gradeForm = this.formBuilder.group({
-      name:'',
-      grade_year:'',
-      active:''
-     });
+  ){ 
+    this.grade ={
+      grade_id: 0,
+      name: '',
+      grade_year: '',
+      number_of_students:'',
+      active: false,
+      date_created: ''
+    }
   }
  
   ngOnInit() {
-
+    if(this.fromParent){
+      this.tittle = "Update Grade";
+      this.grade = {
+        grade_id: this.fromParent.grade_id,
+        name: this.fromParent.name,
+        grade_year: this.fromParent.grade_year,
+        number_of_students: this.fromParent.number_of_students,
+        average: this.fromParent.average,
+        date_created: this.fromParent.date_created,
+        active: this.fromParent.active
+      };
+      this.operation = false;
+    }else{
+      this.operation = true;
+    }
   }
   
 
   saveGrade(gradeForm){
     
-    this.gradeService.saveGrade(gradeForm).subscribe(
+    if(this.operation){
+      this.addGrade(gradeForm);
+    }else{
+      this.updateGrade(gradeForm,this.fromParent.grade_id);
+    }
+  }
+
+  addGrade= (model)=>
+  {
+    this.gradeService.saveGrade(model).subscribe(
       data =>{
          alert("Grade Saved" + data);
-         this.activeModal.close(gradeForm);
+         this.activeModal.close(model);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
+  updateGrade= (model,id)=>
+  {
+    this.gradeService.updateGrade(model,id).subscribe(
+      data =>{
+         alert("Grade Updated" + data);
+         this.operation = true;
+         this.activeModal.close(model);
       },
       error =>{
         console.log(error);
@@ -51,3 +87,4 @@ export class GradeModalComponent implements OnInit {
   }
    
 }
+

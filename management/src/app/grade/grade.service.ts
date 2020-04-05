@@ -11,13 +11,22 @@ export class GradeService {
   httpHeaders = new HttpHeaders({'Content-type': 'application/json'});
 
   constructor(private http: HttpClient) { }
-
+ 
+  // Data manipulation
   getAllGrades(): Observable<any>{
     return this.http.get(this.baseUrl ,
                           {headers: this.httpHeaders})
   }
   saveGrade(model): Observable<any>{
     return this.http.post(this.baseUrl,model)
+  }
+  updateGrade(model,id): Observable<any>{
+    const url = `${this.baseUrl}/${id}/`;
+    return this.http.put(url,model,{headers: this.httpHeaders})
+  }
+  deleteGrade(id: number): Observable<{}> {
+    const url = `${this.baseUrl}/${id}/`; 
+    return this.http.delete(url, {headers: this.httpHeaders});
   }
   getGridSettings = ()=>{
     return  [
