@@ -47,7 +47,7 @@ export class GradeComponent implements OnInit{
     
     setSelectedGrade = (selectedRows)=>
     {
-      selectedRows.length === 1 ? this.selectedGrade= selectedRows[0] : this.selectedGrade= {};
+      selectedRows.length === 1 ? this.selectedGrade= selectedRows[0] : this.selectedGrade= null;
     }
     createGrade =()=>
     {
@@ -55,10 +55,12 @@ export class GradeComponent implements OnInit{
     }
     updateGrade= ()=>{
       this.selectedGrade ? this.openModal(this.selectedGrade): alert("No Grade Selected")
+      this.selectedGrade= null;
     }
     deleteView =()=>
     {
-      this.selectedGrade ? this.deleteGrade(this.selectedGrade.grade_id): alert("No Grade Selected") 
+      this.selectedGrade ? this.deleteGrade(this.selectedGrade.grade_id): alert("No Grade Selected");
+      this.selectedGrade= null;
     }
     
   //Modal options 
