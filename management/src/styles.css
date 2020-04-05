@@ -184,3 +184,6 @@ body{
     margin-top: 25px;
     display: flex;
 }
+.main_container .card .card-header ul li button{
+    margin-right: 10px;
+}
