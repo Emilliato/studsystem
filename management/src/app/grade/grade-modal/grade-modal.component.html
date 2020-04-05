@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h2 class="modal-title">{{tittle}}</h2>
+  <a  class="close " data-dismiss="modal" (click)="closeModal()"  data-placement="right" title="Close">
+    <span aria-hidden="false"><i class=" fas fa-window-close"></i></span>
+  </a>
+</div>
+
+<form [formGroup]="gradeForm" (ngSubmit)="saveGrade(gradeForm.value)">
+  <div class="modal-body">
+    <div class="row form-group ">
+      <label class="col-md-2 control-label ">
+        Name: 
+      </label>
+      <div class="col-md-10">
+        <input formControlName="name" class="form-control" type="text" value="">
+      </div>
+    </div>
+    <div class="row form-group ">
+      <label class="col-md-2 control-label ">
+        Grade year
+      </label>
+      <div class="col-md-10">
+        <input formControlName="grade_year" class="form-control" type="text" value="">
+      </div>
+    </div>
+    <div class="row form-group horizontal-checkbox">
+      <label class="col-sm-2 control-label ">
+        Active
+      </label>
+      <div class="col-sm-2">
+        <input formControlName="active" class="form-control" type="checkbox" value="true" default="false">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" >SAVE</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="closeModal()">CANCEL</button>
+    
+  </div>
+</form>
