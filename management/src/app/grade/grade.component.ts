@@ -15,10 +15,10 @@ import { GradeModalComponent } from "./grade-modal/grade-modal.component"
 
 export class GradeComponent implements OnInit{
     
-    private  title= "Grades";
+      title= "Grades";
 
-    private rowData:any ;
-    private columnDefs: any;
+     rowData:any ;
+     columnDefs: any;
     private gridApi: any;
     private selectedGrade: any;
 

@@ -10,10 +10,10 @@ import { GradeService } from '../grade.service';
 })
 export class GradeModalComponent implements OnInit {
 
-  tittle= "Add Grade";
+  public tittle= "Add Grade";
   @Input() fromParent;
   grade: any;
-  private operation: boolean;
+ public operation: boolean;
   
   constructor(
     public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private gradeService: GradeService
