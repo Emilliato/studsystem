@@ -51,10 +51,12 @@ export class GradeComponent implements OnInit {
   updateView = () => {
     this.selectedGrade ? this.openModal(this.selectedGrade) : alert("No Grade Selected")
     this.selectedGrade = null;
+    this.gridApi.deselectAll();
   }
   deleteView = () => {
     this.selectedGrade ? this.deleteGrade(this.selectedGrade.grade_id) : alert("No Grade Selected");
     this.selectedGrade = null;
+    this.gridApi.deselectAll();
   }
 
   //Modal options 

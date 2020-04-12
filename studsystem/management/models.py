@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
 from datetime import timezone
 from enum import Enum
 
@@ -22,6 +23,36 @@ class Grade(models.Model):
     
     def __str__(self):
         return '\t\t\t'.join([self.name, self.grade_year])
+        
+def increase(id):
+    totalStudents = Student.objects.filter(grade_id=id).count()
+    grade_to_update = Grade.objects.get(pk= id)
+    grade_to_update.number_of_students = totalStudents
+    grade_to_update.save(update_fields=['number_of_students'])
+
+def decrease(id):
+    grade_to_update = Grade.objects.get(pk= id)
+    grade_to_update.number_of_students -= 1
+    grade_to_update.save(update_fields=['number_of_students'])
+
+def increaseAndDecrease(increaseId, decreaseId):
+    increase(increaseId)
+    decrease(decreaseId)
+
+def updateGrade(sender,**kwargs):
+    if kwargs['created']:
+        grade_id = kwargs['instance'].grade_id_id
+        increase(grade_id)
+    else:
+        gradeIdInc = kwargs['instance'].grade_id_id
+        gradeIdDec = kwargs['instance'].prev_grade_id
+        increaseAndDecrease(gradeIdInc,gradeIdDec)
+
+def onDelete(sender,**kwargs):
+    grade_id = kwargs['instance'].grade_id_id
+    decrease(grade_id)
+
+        
 
 
 class Mark(models.Model):
@@ -56,7 +87,9 @@ class Student(models.Model):
     student_number = models.CharField(unique=True, max_length=25)
     student_name = models.CharField(max_length=25)
     student_surname = models.CharField(max_length=25)
-    grade = models.ForeignKey(Grade, models.CASCADE)
+    grade_id = models.ForeignKey(Grade, models.CASCADE)
+    prev_grade_id = models.IntegerField(default=0)
+    grade_name= models.CharField(max_length=10, default='')
     date_created = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
     class Meta:
@@ -78,7 +111,6 @@ class StudentAddress(models.Model):
 
     class Meta:
         db_table = 'student_address'
-
 
 class StudentDetails(models.Model):
     student_details_id = models.AutoField(primary_key=True)
@@ -106,3 +138,6 @@ class Subject(models.Model):
 
     class Meta:
         db_table = 'subject'
+
+post_save.connect(updateGrade,sender=Student)
+post_delete.connect(onDelete,sender=Student)

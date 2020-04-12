@@ -39,7 +39,7 @@ export class StudentsService {
               {headerName: 'Student ID', field: 'student_number', sortable: true, filter: true,checkboxSelection: true},
               {headerName: 'Student Name', field: 'student_name', sortable: true, filter: true},
               {headerName: 'Student Surname', field: 'student_surname', sortable: true, filter: true},
-              {headerName: 'Grade', field: 'grade', sortable: true, filter: true},
+              {headerName: 'Grade', field: 'grade_name', sortable: true, filter: true},
               {headerName: 'Active', field: 'active', sortable: true, filter: true},
               {headerName: 'Date Created', field: 'date_created', sortable: true, filter: true}
             ];

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http'
 import { RouterModule, Routes } from '@angular/router';
+import { jqxComboBoxModule } from 'jqwidgets-ng/jqxcombobox';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
@@ -19,6 +20,7 @@ import { AppComponent } from './app.component';
 import {GradeComponent} from './grade/grade.component';
 import { StudentsComponent } from './students/students.component';
 import { GradeModalComponent } from './grade/grade-modal/grade-modal.component';
+import { StudentModalComponent } from './students/student-modal/student-modal.component';
 
 //Routes
 const appRoutes: Routes = [
@@ -32,12 +34,14 @@ const appRoutes: Routes = [
     AppComponent,
     GradeComponent,
     StudentsComponent,
-    GradeModalComponent
+    GradeModalComponent,
+    StudentModalComponent
     ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    jqxComboBoxModule,
     ReactiveFormsModule,
     NgbModule,
     AgGridModule.withComponents([]),

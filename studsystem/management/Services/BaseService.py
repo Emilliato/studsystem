@@ -1,4 +1,4 @@
-from management.models import Student
+from management.models import Student, Grade
 from django.shortcuts import get_list_or_404
 from django.http import Http404
 from django.utils import timezone
@@ -33,4 +33,8 @@ class Base():
         students = Student.objects.filter(student_name = self.s_name, student_surname = self.ss_name)
         if(len(students)>0):
             raise Http404("Please Ensure That Name And Surname Are Unique")
+    def getGradeName(self):
+        grade = Grade.objects.get(pk=self.newStudent['grade_id'])
+        #Add duplicate check in here for update as well
+        return grade.name
 
