@@ -13,7 +13,7 @@ export class GradeModalComponent implements OnInit {
   public tittle= "Add Grade";
   @Input() fromParent;
   grade: any;
- public operation: boolean;
+  public operation: boolean;
   
   constructor(
     public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private gradeService: GradeService
