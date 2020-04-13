@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { error } from 'protractor';
+import Swal from 'sweetalert2';
 
 import { GradeService } from './grade.service';
+import { SystemService } from '../shared/system.service';
 import { GradeModalComponent } from "./grade-modal/grade-modal.component"
-
 
 @Component({
   selector: 'app-grade',
@@ -23,7 +24,7 @@ export class GradeComponent implements OnInit {
   private gridApi: any;
   private selectedGrade: any;
 
-  constructor(private modalService: NgbModal, private api: GradeService) {
+  constructor(private modalService: NgbModal, private api: GradeService, private systemService: SystemService) {
 
   }
 
@@ -35,7 +36,6 @@ export class GradeComponent implements OnInit {
     this.getGridData();
     this.columnDefs = this.api.getGridSettings()
   }
-
 
   onSelectionChanged(params) {
     var selectedRows = this.gridApi.getSelectedRows();
@@ -49,12 +49,12 @@ export class GradeComponent implements OnInit {
     this.openModal(null);
   }
   updateView = () => {
-    this.selectedGrade ? this.openModal(this.selectedGrade) : alert("No Grade Selected")
+    this.selectedGrade ? this.openModal(this.selectedGrade) : this.systemService.showNoRecordSelected();
     this.selectedGrade = null;
     this.gridApi.deselectAll();
   }
   deleteView = () => {
-    this.selectedGrade ? this.deleteGrade(this.selectedGrade.grade_id) : alert("No Grade Selected");
+    this.selectedGrade ? this.deleteGrade(this.selectedGrade.grade_id) : this.systemService.showNoRecordSelected();
     this.selectedGrade = null;
     this.gridApi.deselectAll();
   }
@@ -76,6 +76,11 @@ export class GradeComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.getGridData();
+        if(result.operation === true){
+          this.systemService.showSuccess('Update Successfull');
+        }else{
+          this.systemService.showSuccess('Add Successfull');
+        }
       }
     }, (reason) => {
     });
@@ -88,20 +93,33 @@ export class GradeComponent implements OnInit {
         this.rowData = data.results;
       },
       error => {
-        console.log(error);
+        this.systemService.showError(error.name);
       }
     );
   }
+  
   deleteGrade = (id) => {
-
-    this.api.deleteGrade(id).subscribe(
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#70973f',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.api.deleteGrade(id).subscribe(
       data => {
-        alert("Delete Successfull");
+        this.systemService.showSuccess('Record Deleted');
         this.getGridData();
       },
       error => {
-        console.log(error);
+        this.systemService.showError(error.name);
       }
     );
+      }
+    })
+    
   }
 }

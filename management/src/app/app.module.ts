@@ -7,6 +7,8 @@ import { jqxComboBoxModule } from 'jqwidgets-ng/jqxcombobox';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import 'ag-grid-enterprise';
 import { ModuleRegistry, AllModules } from '@ag-grid-enterprise/all-modules';
@@ -44,6 +46,12 @@ const appRoutes: Routes = [
     jqxComboBoxModule,
     ReactiveFormsModule,
     NgbModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(
+      {progressBar: true,
+       progressAnimation: 'decreasing'
+      }
+    ),
     AgGridModule.withComponents([]),
 
     //Routes registration

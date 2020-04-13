@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { jqxComboBoxComponent } from 'jqwidgets-ng/jqxcombobox';
 
 import {StudentsService} from '../students.service';
-
+import { ToastrService } from 'ngx-toastr';
 import { error } from 'protractor';
 
 @Component({
@@ -22,7 +22,7 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
   @Input() parentGrades;
   @ViewChild('gradeCombobox') myComboBox: jqxComboBoxComponent; 
   
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private studentService: StudentsService) 
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private studentService: StudentsService,private toastr: ToastrService) 
   {
     this.student ={
       student_id: 0,
@@ -70,11 +70,11 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
     model.prev_grade_id = model.grade_id;
     this.studentService.post(model).subscribe(
       data =>{
-         alert("Grade Saved" + data);
-         this.activeModal.close(model);
+         this.activeModal.close({operation:false});
       },
       error =>{
-        console.log(error);
+        //Remove this later use validation
+        this.showErrorMessage(error.message);
       }
     );
   }
@@ -83,9 +83,8 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
   {
     this.studentService.put(model,id).subscribe(
       data =>{
-         alert("Grade Updated" + data);
          this.operation = true;
-         this.activeModal.close(model);
+         this.activeModal.close({operation: true});
       },
       error =>{
         console.log(error);
@@ -95,6 +94,9 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
 
   closeModal= ()=>{
     this.activeModal.close(null);
+  }
+  showErrorMessage(message){
+    this.toastr.error(message);
   }
 
 }
