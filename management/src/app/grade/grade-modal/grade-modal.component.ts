@@ -2,6 +2,7 @@ import { Component, OnInit,Input  } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { GradeService } from '../grade.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-grade-modal',
@@ -16,7 +17,7 @@ export class GradeModalComponent implements OnInit {
   public operation: boolean;
   
   constructor(
-    public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private gradeService: GradeService
+    public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private gradeService: GradeService, private toastr: ToastrService
   ){ 
     this.grade ={
       grade_id: 0,
@@ -60,30 +61,43 @@ export class GradeModalComponent implements OnInit {
   {
     this.gradeService.saveGrade(model).subscribe(
       data =>{
-         alert("Grade Saved" + data);
-         this.activeModal.close(model);
+         this.activeModal.close({operation: false});
       },
       error =>{
-        console.log(error);
+        //Use model validation later
+        let message  = this.createErrorString(error);
+        this.showErrorMessage(message);
       }
     );
   }
-
+  createErrorString(error){
+    //Todo make this dynamic 
+    let message = "";
+    if(error.error.grade_year){
+      message = message.concat("Grade Year: ").concat(error.error.grade_year[0]);
+    }
+    if(error.error.name){
+      message = message.concat("\n Name: ").concat(error.error.name[0])
+    }
+    return message;
+  }
   updateGrade= (model,id)=>
   {
     this.gradeService.updateGrade(model,id).subscribe(
       data =>{
-         alert("Grade Updated" + data);
          this.operation = true;
-         this.activeModal.close(model);
+         this.activeModal.close({operation: true});
       },
       error =>{
-        console.log(error);
+        
       }
     );
   }
   closeModal() {
     this.activeModal.close();
+  }
+  showErrorMessage(message){
+    this.toastr.error(message);
   }
    
 }

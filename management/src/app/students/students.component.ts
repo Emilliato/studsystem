@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { error } from 'protractor';
+import Swal from 'sweetalert2'
 
 import { StudentsService } from './students.service';
+import { SystemService } from '../shared/system.service';
 import { StudentModalComponent} from './student-modal/student-modal.component';
 import { GradeService } from '../grade/grade.service';
 @Component({
@@ -18,7 +20,7 @@ export class StudentsComponent implements OnInit {
   private selectedStudent: any;
   private allGrades: any[];
 
-  constructor(private modalService: NgbModal, private api: StudentsService,private gradeService: GradeService) 
+  constructor(private modalService: NgbModal, private api: StudentsService,private gradeService: GradeService, private systemService: SystemService) 
   { 
 
   }
@@ -41,19 +43,19 @@ export class StudentsComponent implements OnInit {
       }
     );
   }
-
+ //Crud Functions
   createView= ()=>{
     this.openModal(null,this.allGrades);
   }
 
   updateView= ()=>{
-    this.selectedStudent ? this.openModal(this.selectedStudent, this.allGrades) : alert("No Grade Selected")
+    this.selectedStudent ? this.openModal(this.selectedStudent, this.allGrades) : this.systemService.showNoRecordSelected();
     this.selectedStudent = null;
     this.gridApi.deselectAll();
   }
 
   deleteView= ()=>{
-    this.selectedStudent ? this.deleteStudent(this.selectedStudent.student_id) : alert("No Grade Selected");
+    this.selectedStudent ? this.deleteStudent(this.selectedStudent.student_id) : this.systemService.showNoRecordSelected();
     this.selectedStudent = null;
     this.gridApi.deselectAll();
   }
@@ -100,22 +102,40 @@ export class StudentsComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.getGridData();
+        if(result.operation === true){
+          this.systemService.showSuccess('Update Successfull');
+        }else{
+          this.systemService.showSuccess('Add Successfull');
+        }
       }
     }, (reason) => {
       
     });
   }
   deleteStudent = (id) => {
-
-    this.api.delete(id).subscribe(
-      data => {
-        alert("Delete Successfull");
-        this.getGridData();
-      },
-      error => {
-        console.log(error);
+    //Refactor to be reusable
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#70973f',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.api.delete(id).subscribe(
+          data => {
+            this.systemService.showSuccess('Record Deleted');
+            this.getGridData();
+          },
+          error => {
+            this.systemService.showError(error.name);
+          }
+        );
       }
-    );
+    })
+    
   }
 
 

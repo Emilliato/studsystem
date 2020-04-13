@@ -1,9 +1,11 @@
 # Studsystem
 This is a student management system which is written in Django Rest Framework and Angular 9, we also integrated agGrid and ngModals for a great user experience.
-Getting started:
+Tech Stack:
 - [Django Rest Framework >3](https://www.django-rest-framework.org/)
 - [Angular 9](https://angular.io/start)
 - [agGrid](https://www.ag-grid.com/angular-grid/)
+- [Toastr](https://www.npmjs.com/package/ngx-toastr)
+- [Sweet Alert 2](https://npm.runkit.com/sweetalert2)
 
 ## Getting started
  - Install Python >= 3.8
