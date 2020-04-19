@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'management',
-    'corsheaders'
+    'corsheaders',
+    'user_auth'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'studsystem.urls'
+AUTH_USER_MODEL = 'user_auth.User'
 
 TEMPLATES = [
     {
