@@ -131,11 +131,10 @@ class StudentDetails(models.Model):
 class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=10)
-    students = ListCharField( base_field=models.IntegerField(), size=6, max_length=(10 * 11) , default=[])
     grade = models.ForeignKey(Grade, models.CASCADE)
+    students = ListCharField( base_field=models.IntegerField(), size=6, max_length=(10 * 11) , default=[])
     active = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now=True)
-    
 
     class Meta:
         db_table = 'subject'
