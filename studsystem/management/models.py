@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from datetime import timezone
 from enum import Enum
+from django_mysql.models import ListCharField, ListTextField
 
 class Terms(Enum):
     T1 = "TERM1"
@@ -12,7 +13,7 @@ class Terms(Enum):
 class Grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=10)
-    grade_year = models.CharField(max_length=4,null=False, default='2020')  # This field type is a guess.
+    grade_year = models.CharField(max_length=4,null=False, default='2020') 
     number_of_students = models.IntegerField(blank=True, null=True)
     average = models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now=True)
@@ -130,11 +131,11 @@ class StudentDetails(models.Model):
 class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=10)
-    final_mark = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
-    student = models.ForeignKey(Student, models.CASCADE, blank=True, null=True)
+    students = ListCharField( base_field=models.IntegerField(), size=6, max_length=(10 * 11) )
     grade = models.ForeignKey(Grade, models.CASCADE)
-    date_created = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+    date_created = models.DateTimeField(auto_now=True)
+    
 
     class Meta:
         db_table = 'subject'
