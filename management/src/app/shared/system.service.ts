@@ -9,10 +9,12 @@ export class SystemService {
 
   public baseUrl: string;
   public httpHeaders: any;
+  public httpHeadersNoAuth: any;
 
   constructor(private toastr: ToastrService) {
     this.baseUrl = "http://localhost:8000/api/";
     this.httpHeaders = new HttpHeaders({ 'Content-type': 'application/json' });
+    this.httpHeadersNoAuth = new HttpHeaders({ 'Content-type': 'application/json' });
   }
 
   public showSuccess(message) {

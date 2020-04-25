@@ -23,11 +23,19 @@ import {GradeComponent} from './grade/grade.component';
 import { StudentsComponent } from './students/students.component';
 import { GradeModalComponent } from './grade/grade-modal/grade-modal.component';
 import { StudentModalComponent } from './students/student-modal/student-modal.component';
+import { HomeComponent } from './home/home.component';
+import { SigninComponent } from './signin/signin.component';
+import { AuthGuard } from './auth/auth.guard';
 
 //Routes
 const appRoutes: Routes = [
-  { path: 'grades', component: GradeComponent },
-  { path: 'students', component: StudentsComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard],
+     children: [
+                  { path: 'grades', component: GradeComponent },
+                  { path: 'students', component: StudentsComponent }
+                ]
+  },
+  {path: 'signin', component:SigninComponent }
 ];
 
 
@@ -37,7 +45,9 @@ const appRoutes: Routes = [
     GradeComponent,
     StudentsComponent,
     GradeModalComponent,
-    StudentModalComponent
+    StudentModalComponent,
+    HomeComponent,
+    SigninComponent
     ],
   imports: [
     BrowserModule,
@@ -56,15 +66,14 @@ const appRoutes: Routes = [
 
     //Routes registration
     RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: false } // <-- debugging purposes only
+      appRoutes
     )
   ],
   entryComponents:[
     GradeModalComponent
   ],
 
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
