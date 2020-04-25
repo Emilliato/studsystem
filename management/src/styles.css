@@ -188,3 +188,16 @@ body{
 .main_container .card .card-header ul li button{
     margin-right: 10px;
 }
+.login-header{
+    background-color: #2e4ead !important;
+    color: #fff;
+}
+.login-card{
+    z-index: 10;
+}
+.mt-5{
+    top: 200px;
+}
+.login-error{
+    color: red;
+}

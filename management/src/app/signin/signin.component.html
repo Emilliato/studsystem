@@ -1,0 +1,36 @@
+<div class="col-md-4 offset-md-4 mt-5 ">
+  <div class="card login-card">
+        <h4 class="card-header login-header text-center">Login</h4>
+        <form #signinForm="ngForm" (ngSubmit)="signIn(signinForm.value)">
+            <div class="card-body">
+                <div *ngIf="signinError" >
+                <p class="login-error">{{signinError}}</p>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-3" for="username">Email <span>&#42;</span>
+                    </label>
+                    <div class="col-md-8" [ngClass]="{ 'is-invalid': submitted && signin.username.errors }">
+                        <input type="text" required name="username" class="form-control" [(ngModel)]="signin.username" />
+                        <div *ngIf="submitted && signin.username.errors" class="invalid-feedback">
+                        <div *ngIf="signin.username.errors.required">Email is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                <label class="col-md-3" for="password">Password<span>&#42;</span></label>
+                <div class="col-md-8" [ngClass]="{ 'is-invalid': submitted && signin.password.errors }">
+                    <input type="text" required name="password" class="form-control" [(ngModel)]="signin.password" />
+
+                    <div *ngIf="submitted && signin.password.errors" class="invalid-feedback">
+                    <div *ngIf="signin.password.errors.required">Password is required</div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</div>
