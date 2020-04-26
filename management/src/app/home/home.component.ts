@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SystemService } from '../shared/system.service';
 
 @Component({
   selector: 'app-home',
@@ -7,13 +8,29 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router :Router) { }
+  username: string;
+  surname: string;
 
-  ngOnInit(): void {    
+  constructor(private router :Router, private systemService: SystemService) { }
+
+  ngOnInit(): void { 
+    this.getUserDetails();   
   }
-  // Add Functionality to get user details and dispaly on the top header
+  
   signOut = ()=>{
     localStorage.removeItem('temporary');
     this.router.navigate(['/signin']);
+  }
+
+  getUserDetails = ()=>{
+  this.systemService.getUserDetail().subscribe(
+    data=>{
+    this.username = data.username;
+    this.surname = data.last_name
+    },
+    error=>{
+      this.systemService.showError(error.message);
+    }
+  );
   }
 }
