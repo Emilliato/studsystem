@@ -57,8 +57,10 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
     }
 
   }
-  saveStudent(studentForm){
-    
+  saveStudent(submitted, status,studentForm){
+    if(submitted && status==="INVALID")
+    return false;
+
     if(this.operation){
       this.addStudent(studentForm);
     }else{
@@ -73,7 +75,6 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
          this.activeModal.close({operation:false});
       },
       error =>{
-        //Remove this later use validation
         this.showErrorMessage(error.message);
       }
     );
@@ -87,7 +88,7 @@ export class StudentModalComponent implements OnInit,AfterViewInit {
          this.activeModal.close({operation: true});
       },
       error =>{
-        console.log(error);
+        this.showErrorMessage(error.message);
       }
     );
   }

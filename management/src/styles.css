@@ -199,5 +199,7 @@ body{
     top: 200px;
 }
 .login-error{
-    color: red;
+    margin-top: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #CC0000;
 }

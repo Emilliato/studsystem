@@ -48,7 +48,9 @@ export class GradeModalComponent implements OnInit {
   }
   
 
-  saveGrade(gradeForm){
+  saveGrade(submitted, status,gradeForm){
+    if(submitted && status==="INVALID")
+    return false;
     
     if(this.operation){
       this.addGrade(gradeForm);
