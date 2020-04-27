@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <h2 class="modal-title">{{tittle}}</h2>
+  <a class="close " data-dismiss="modal" (click)="closeModal()" data-placement="right" title="Close">
+    <span aria-hidden="false"><i class=" fas fa-window-close"></i></span>
+  </a>
+</div>
+
+<form #studentForm="ngForm" (ngSubmit)="saveStudent(studentForm.submitted, studentForm.status,studentForm.value)">
+  <div class="modal-body">
+
+    <div class="row form-group ">
+      <label class="col-md-4" for="student_name">
+        Name <span>&#42;</span>
+      </label>
+      <div class="col-md-8">
+        <input id="student_name" name="student_name" class="form-control" type="text" [(ngModel)]="student.student_name" required maxlength="25" #student_name="ngModel">
+        <div *ngIf="studentForm.submitted && student_name.invalid" >
+          <div class="login-error" >Name Is Required</div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group ">
+      <label class="col-md-4 control-label ">
+        Surname <span>&#42;</span>
+      </label>
+      <div class="col-md-8">
+        <input id="student_surname" name="student_surname" class="form-control" type="text" [(ngModel)]="student.student_surname" required maxlength="25" #student_surname="ngModel">
+        <div *ngIf="studentForm.submitted && student_surname.invalid" >
+          <div class="login-error" >Surname Is Required</div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group ">
+      <label class="col-md-4 control-label ">
+        Grade <span>&#42;</span>
+      </label>
+      <div class="col-md-8">
+        <jqxComboBox #gradeCombobox name="grade_id" 
+            [width]="'100%'" [height]="35" [source]="grades" [placeHolder]="'Please Choose...'" [theme]="'energyblue'" required [(ngModel)]="student.grade_id" #grade_id= "ngModel" >
+        </jqxComboBox>
+        <div *ngIf="studentForm.submitted && grade_id.invalid" >
+          <div class="login-error" >Grade Is Required</div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group horizontal-checkbox">
+      <label class="col-md-4 control-label ">
+        Active
+      </label>
+      <div class="col-md-2">
+        <input id="active" name="active" class="form-control" type="checkbox" [(ngModel)]="student.active"
+          default="false">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-8">
+        <input id="prev_grade_id" name="prev_grade_id" class="form-control" type="text" [(ngModel)]="student.prev_grade_id" hidden>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success">SAVE</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="closeModal()">CANCEL</button>
+  </div>
+</form>
