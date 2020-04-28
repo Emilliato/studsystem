@@ -1,10 +1,10 @@
-name: DEVELOP CI
+name: RELEASE CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ release ]
   pull_request:
-    branches: [ develop ]
+    branches: [ release ]
 
 jobs:
   build:
