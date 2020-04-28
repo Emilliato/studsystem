@@ -26,7 +26,7 @@ SECRET_KEY = '5wi%78gm#c4()51n7_vtfppidbnl%ced^y*oajc-x(8z@zffb3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['studmanage.herokuapp.com']
 
 APPEND_SLASH=False
 # Application definition
