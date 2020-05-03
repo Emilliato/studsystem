@@ -31,7 +31,7 @@ export class StudentsComponent implements OnInit {
   ngOnInit(): void {
     this.getGridData();
     this.getGrades();
-    this.columnDefs = this.api.getGridSettings()
+    this.columnDefs = this.api.getGridSettings();
   }
   getGridData() {
     this.api.get().subscribe(
