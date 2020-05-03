@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 
-from management.models import Grade, Student
+from management.models import Grade, Student,Subject
 from user_auth.models import User
 import json
 
@@ -131,3 +131,67 @@ class  TestStudentViews(TestCase):
     #     self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
     #     self.assertEquals(Student.objects.get(pk=student_id).active,self.update_student['active'])
     #     self.assertEquals(Student.objects.get(pk=student_id).student_name,self.update_student['student_name'])
+
+class  TestSubjectViews(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.grade1 = Grade.objects.create(
+            name= "Grade1",
+            grade_year = '2020',
+            active = 1
+        )
+        self.student1 = Student.objects.create(
+            student_name = 'Emillio',
+            student_surname = 'Marambo',
+            grade_id = self.grade1,
+            active = 1
+        )
+        self.subject1 = Subject.objects.create(
+            subject_name = 'Test Sub',
+            grade = self.grade1,
+            students = ['1'],
+            active = 1
+        )
+        self.new_subject = {
+            'subject_name':'Sub1',
+            'grade_id':self.grade1.grade_id,
+            'students': ['1'],
+            'active': '1'
+        }
+        self.update_subject ={
+            'subject_name' :'Sub2',
+            'active':0
+        }
+
+        self.statusCodes = {
+            'SUCCESS_200_OK': 200,
+            'SUCCESS_201_CREATED': 201,
+            'ERROR_404_NOT_FOUND': 404,
+            'SUCCESS_204_DELETE': 204
+        }
+        self.subject_list_url = reverse('all_subjects:subject_list')
+        self.subject_select_url = reverse('all_subjects:subject_select')
+        self.subject_detail_url = 'all_subjects:subject_details'
+
+    def test_Subject_list_GET(self):
+        response = self.client.get(self.subject_list_url)
+        self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
+
+    def test_Subject_select_GET(self):
+        response = self.client.get(self.subject_select_url)
+        self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
+
+    def test_Subject_GET_Not_Found(self):
+        response = self.client.get(reverse(self.subject_detail_url, args=[200]))
+        self.assertEquals(response.status_code,self.statusCodes['ERROR_404_NOT_FOUND'])
+
+    def test_Subject_GET(self):
+        response = self.client.get(reverse(self.subject_detail_url, args=[self.subject1.subject_id]))
+        self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
+
+    # def test_Subject_Create_POST(self):
+    #     response = self.client.post(path=self.subject_list_url, data=self.new_subject)
+    #     self.assertEquals(response.status_code,self.statusCodes['SUCCESS_201_CREATED'])
+    #     self.assertEquals(Subject.objects.get(name=self.new_subject['subject_name']).active,self.new_subject['active'])
+
