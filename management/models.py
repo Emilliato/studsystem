@@ -24,7 +24,16 @@ class Grade(models.Model):
     
     def __str__(self):
         return '\t\t\t'.join([self.name, self.grade_year])
-        
+def createEnrolments(id):
+    added_subject = Subject.objects.get(pk = id)
+    added_grade = Grade.objects.get(pk = added_subject.grade_id)
+    students_list = added_subject.students
+    for studId in students_list:
+        new_enrolment = SubjectEnrolment.objects.create(
+            subject= added_subject,
+            student = Student.objects.get(pk = int(studId))
+        )
+
 def increase(id):
     totalStudents = Student.objects.filter(grade_id=id).count()
     grade_to_update = Grade.objects.get(pk= id)
@@ -53,7 +62,10 @@ def onDelete(sender,**kwargs):
     grade_id = kwargs['instance'].grade_id_id
     decrease(grade_id)
 
-        
+def createSubjectEnrolment(sender, **kwargs):
+    if kwargs['created']:
+        subject_id = kwargs['instance'].subject_id
+        createEnrolments(subject_id)    
 
 
 class Mark(models.Model):
@@ -132,12 +144,24 @@ class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=10)
     grade = models.ForeignKey(Grade, models.CASCADE)
-    students = ListCharField( base_field=models.IntegerField(), size=6, max_length=(10 * 11) , default=[])
+    students = ListCharField( base_field=models.CharField(max_length=(50)), size=6, max_length=1000 , default=[])
+    average = models.DecimalField(max_digits= 5,decimal_places=2, default=0.00)
     active = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'subject'
 
+class SubjectEnrolment(models.Model):
+    enrolment_id = models.AutoField(primary_key = True)
+    subject =  models.ForeignKey(Subject,models.CASCADE)
+    student = models.ForeignKey(Student,models.CASCADE)
+    active = models.BooleanField(default=True)
+    date_created = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'subject_enrolment'
+
+post_save.connect(createSubjectEnrolment,sender=Subject)
 post_save.connect(updateGrade,sender=Student)
 post_delete.connect(onDelete,sender=Student)
