@@ -17,7 +17,13 @@ class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
             serializer.save( grade_name = Base(newStudent=self.request).getGradeName())
 
-
 class StudentSelect(generics.ListAPIView):
     queryset = Student.objects.all().order_by("student_name")
     serializer_class = StudentSelectSerializer
+
+class StudentsList(generics.ListAPIView):
+    students_list = Student.objects.all()
+    serializer_class = StudentSelectSerializer
+
+    def get_queryset(self):
+        return self.students_list.filter(grade_id = self.kwargs.get('id')).order_by("student_name")
