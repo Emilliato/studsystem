@@ -21,7 +21,7 @@ class StudentSelect(generics.ListAPIView):
     queryset = Student.objects.all().order_by("student_name")
     serializer_class = StudentSelectSerializer
 
-class StudentsList(generics.ListAPIView):
+class StudentsListByGrade(generics.ListAPIView):
     students_list = Student.objects.all()
     serializer_class = StudentSelectSerializer
 

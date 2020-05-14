@@ -102,6 +102,7 @@ class  TestStudentViews(TestCase):
         }
         self.student_list_url = reverse('all_students:student_list')
         self.student_select_url = reverse('all_students:student_select')
+        self.student_collection_url = reverse('all_students:student_collection',args=['1'])
         self.student_detail_url = 'all_students:student_details'
 
     def test_Student_list_GET(self):
@@ -112,12 +113,16 @@ class  TestStudentViews(TestCase):
         response = self.client.get(self.student_select_url)
         self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
 
+    def test_Student_Collection_GET(self):
+        response = self.client.get(self.student_collection_url)
+        self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
+
     def test_Student_GET_Not_Found(self):
         response = self.client.get(reverse(self.student_detail_url, args=[200]))
         self.assertEquals(response.status_code,self.statusCodes['ERROR_404_NOT_FOUND'])
 
     def test_Student_GET(self):
-        response = self.client.get(reverse(self.student_detail_url, args=[1]))
+        response = self.client.get(reverse(self.student_detail_url, args=['1']))
         self.assertEquals(response.status_code,self.statusCodes['SUCCESS_200_OK'])
 
     # def test_Student_Create_POST(self):
