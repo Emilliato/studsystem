@@ -1,26 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { error } from 'protractor';
-import Swal from 'sweetalert2'
-
-import { StudentsService } from './students.service';
-import { SystemService } from '../shared/system.service';
-import { StudentModalComponent} from './student-modal/student-modal.component';
+import { SubjectsService } from './subjects.service';
 import { GradeService } from '../grade/grade.service';
+import { SystemService } from '../shared/system.service';
+import { StudentsService } from '../students/students.service';
+import { SubjectModalComponent } from './subject-modal/subject-modal.component';
+import Swal from 'sweetalert2';
+
 @Component({
-  selector: 'app-students',
+  selector: 'app-subjects',
   templateUrl: '../shared/grid.component.html',
 })
+export class SubjectsComponent implements OnInit {
 
-export class StudentsComponent implements OnInit {
-  title = 'Students'
+  title = 'Subjects'
   rowData: any;
   columnDefs: any;
   private gridApi: any;
-  private selectedStudent: any;
-  private allGrades: any[];
+  private selectedSubject: any;
+  private allSubjects: any[];
+  allGrades: any[];
 
-  constructor(private modalService: NgbModal, private api: StudentsService,private gradeService: GradeService, private systemService: SystemService) 
+  constructor(private modalService: NgbModal, 
+              private api: SubjectsService,
+              private gradeService: GradeService, 
+              private studentService: StudentsService, 
+              private systemService: SystemService) 
   { 
 
   }
@@ -28,6 +33,7 @@ export class StudentsComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
   }
+
   ngOnInit(): void {
     this.getGridData();
     this.getGrades();
@@ -43,49 +49,51 @@ export class StudentsComponent implements OnInit {
       }
     );
   }
- //Crud Functions
   createView= ()=>{
     this.openModal(null,this.allGrades);
   }
 
   updateView= ()=>{
-    this.selectedStudent ? this.openModal(this.selectedStudent, this.allGrades) : this.systemService.showNoRecordSelected();
-    this.selectedStudent = null;
+    this.selectedSubject ? this.openModal(this.selectedSubject, this.allGrades) : this.systemService.showNoRecordSelected();
+    this.selectedSubject = null;
+    this.gridApi.deselectAll();
+  }
+  deleteView(){
+    this.selectedSubject ? this.deleteSubject(this.selectedSubject.subject_id) : this.systemService.showNoRecordSelected();
+    this.selectedSubject = null;
     this.gridApi.deselectAll();
   }
 
-  deleteView= ()=>{
-    this.selectedStudent ? this.deleteStudent(this.selectedStudent.student_id) : this.systemService.showNoRecordSelected();
-    this.selectedStudent = null;
-    this.gridApi.deselectAll();
-  }
   onSelectionChanged(params) {
     var selectedRows = this.gridApi.getSelectedRows();
-    this.setSelectedStudent(selectedRows);
+    this.setSelectedSubject(selectedRows);
   }
-  setSelectedStudent = (selectedRows) => {
-    selectedRows.length === 1 ? this.selectedStudent = selectedRows[0] : this.selectedStudent = null;
+
+  setSelectedSubject(selectedRows: any) {
+    selectedRows.length === 1 ? this.selectedSubject = selectedRows[0] : this.selectedSubject = null;
   }
+  
   getGrades(): void{
     this.gradeService.getAllGrades().subscribe(
       data =>{
-        this.allGrades = this.createComboboxData(data.results);
+        this.allGrades = this.createGradesComboboxData(data.results);
       },
       error=>{
         console.log(error)
       }
     );
   }
-  createComboboxData =(rawData)=>{
+  createGradesComboboxData =(rawData)=>{
     let gradeObjects = [];
     rawData.forEach(element => {
         gradeObjects.push({value: element.grade_id, label: element.name + '-'+ element.grade_year})
       });
     return gradeObjects;
   }
-  //Modal options 
-  openModal = (model,grades) => {
-    const modalRef = this.modalService.open(StudentModalComponent,
+
+   //Modal options 
+   openModal = (model,grades) => {
+    const modalRef = this.modalService.open(SubjectModalComponent,
       {
         scrollable: true,
         windowClass: 'myCustomModalClass',
@@ -112,7 +120,8 @@ export class StudentsComponent implements OnInit {
       
     });
   }
-  deleteStudent = (id) => {
+
+  deleteSubject = (id) => {
     //Refactor to be reusable
     Swal.fire({
       title: 'Are you sure?',
@@ -137,6 +146,4 @@ export class StudentsComponent implements OnInit {
     })
     
   }
-
-
 }
