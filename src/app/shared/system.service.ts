@@ -14,8 +14,8 @@ export class SystemService {
   private token: string;
 
   constructor(private toastr: ToastrService,private http: HttpClient) {
-    // this.baseUrl = "https://studmanage.herokuapp.com/api/";
-    this.baseUrl = "http://localhost:8000/api/";
+    this.baseUrl = "https://studmanage.herokuapp.com/api/";
+    //this.baseUrl = "http://localhost:8000/api/";
     this.token = localStorage.getItem('temporary');
     this.httpHeaders = new HttpHeaders({ 'Content-type': 'application/json', 'Authorization': this.token});
     this.httpHeadersNoAuth = new HttpHeaders({ 'Content-type': 'application/json' });
