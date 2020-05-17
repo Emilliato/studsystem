@@ -9,16 +9,23 @@ import { SystemService } from '../shared/system.service';
 
 export class StudentsService {
   private baseUrl: string;
+  private customStudentsUrl: string;
   private httpHeaders: any;
 
   constructor(private http: HttpClient, private systemService: SystemService) {
     this.baseUrl = systemService.baseUrl + "students";
+    this.customStudentsUrl  = systemService.baseUrl +"studentscollection";
     this.httpHeaders = systemService.httpHeaders
   }
 
   // Data manipulation
   get(): Observable<any>{
     return this.http.get(this.baseUrl ,
+                          {headers: this.httpHeaders})
+  }
+  getStudentsByGrade(id):  Observable<any>{
+    const url = `${this.customStudentsUrl}/${id}/`
+    return this.http.get(url,
                           {headers: this.httpHeaders})
   }
   post(model): Observable<any>{

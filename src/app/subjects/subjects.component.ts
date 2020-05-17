@@ -5,6 +5,7 @@ import { GradeService } from '../grade/grade.service';
 import { SystemService } from '../shared/system.service';
 import { StudentsService } from '../students/students.service';
 import { SubjectModalComponent } from './subject-modal/subject-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subjects',
@@ -35,6 +36,7 @@ export class SubjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGridData();
+    this.getGrades();
     this.columnDefs = this.api.getGridSettings();
   }
   getGridData() {
@@ -52,10 +54,14 @@ export class SubjectsComponent implements OnInit {
   }
 
   updateView= ()=>{
-
+    this.selectedSubject ? this.openModal(this.selectedSubject, this.allGrades) : this.systemService.showNoRecordSelected();
+    this.selectedSubject = null;
+    this.gridApi.deselectAll();
   }
   deleteView(){
-    
+    this.selectedSubject ? this.deleteSubject(this.selectedSubject.subject_id) : this.systemService.showNoRecordSelected();
+    this.selectedSubject = null;
+    this.gridApi.deselectAll();
   }
 
   onSelectionChanged(params) {
@@ -70,14 +76,14 @@ export class SubjectsComponent implements OnInit {
   getGrades(): void{
     this.gradeService.getAllGrades().subscribe(
       data =>{
-        this.allGrades = this.createComboboxData(data.results);
+        this.allGrades = this.createGradesComboboxData(data.results);
       },
       error=>{
         console.log(error)
       }
     );
   }
-  createComboboxData =(rawData)=>{
+  createGradesComboboxData =(rawData)=>{
     let gradeObjects = [];
     rawData.forEach(element => {
         gradeObjects.push({value: element.grade_id, label: element.name + '-'+ element.grade_year})
@@ -113,5 +119,31 @@ export class SubjectsComponent implements OnInit {
     }, (reason) => {
       
     });
+  }
+
+  deleteSubject = (id) => {
+    //Refactor to be reusable
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#70973f',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.api.delete(id).subscribe(
+          data => {
+            this.systemService.showSuccess('Record Deleted');
+            this.getGridData();
+          },
+          error => {
+            this.systemService.showError(error.name);
+          }
+        );
+      }
+    })
+    
   }
 }

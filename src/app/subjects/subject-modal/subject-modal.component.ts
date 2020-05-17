@@ -2,8 +2,10 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { jqxComboBoxComponent } from 'jqwidgets-ng/jqxcombobox/public_api';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
-import { StudentsService } from 'src/app/students/students.service';
 import { ToastrService } from 'ngx-toastr';
+import { SubjectsService } from '../subjects.service';
+import { StudentsService } from 'src/app/students/students.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-subject-modal',
@@ -12,62 +14,83 @@ import { ToastrService } from 'ngx-toastr';
 export class SubjectModalComponent implements OnInit {
 
   public tittle= "Add Subject";
-  student: any;
+  subject: any;
   grades: any[];
+  studentList: any[];
+  studentIDs: string[];
   public operation: boolean;
   @Input() fromParent;
   @Input() parentGrades;
+  @Input() parentStudents;
   @ViewChild('gradeCombobox') myComboBox: jqxComboBoxComponent; 
-  
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private studentService: StudentsService,private toastr: ToastrService) 
+  @ViewChild('studentsCombobox') studentsCombobox: jqxComboBoxComponent; 
+  constructor(public activeModal: NgbActiveModal, 
+              private formBuilder: FormBuilder, 
+              private subjectService: SubjectsService,
+              private studentService: StudentsService,
+              private toastr: ToastrService) 
   {
-    this.student ={
-      student_id: 0,
-      student_name: '',
-      student_surname: '',
-      grade_id:'',
-      prev_grade_id:'',
-      active: false,
+    this.subject ={
+      subject_id: 0,
+      subject_name: '',
+      prev_grade_id: 0,
+      grade:'',
+      students: [],
+      active: true,
       date_created: ''
     }
    }
   ngAfterViewInit(): void {
-    this.myComboBox.selectItem({value: this.student.grade_id});
+    this.myComboBox.selectItem({value: this.subject.grade});
+    
   }
 
   ngOnInit(): void {
     this.grades = this.parentGrades;
     if(this.fromParent){
-      this.tittle = "Update Student";
+      this.tittle = "Update Subject";
       this.operation = false;
-      this.student= {
-        student_id: this.fromParent.student_id,
-        student_name: this.fromParent.student_name,
-        student_surname: this.fromParent.student_surname,
-        grade_id: this.fromParent.grade_id,
-        prev_grade_id: this.fromParent.grade_id,
+      
+      this.subject= {
+        subject_id: this.fromParent.subject_id,
+        subject_name: this.fromParent.subject_name,
+        grade: this.fromParent.grade,
+        prev_grade_id: this.fromParent.prev_grade_id,
+        students: this.fromParent.students,
         active: this.fromParent.active,
         date_created: this.fromParent.date_created
       }
+      this.getStudentsByGade(this.fromParent.grade);
     }else{
       this.operation = true;
     }
 
   }
-  saveStudent(submitted, status,studentForm){
+  onStudentCheck(): void{
+    let data = this.studentsCombobox.getCheckedItems();
+    let studentIds = [];
+    data.forEach(element =>{
+      studentIds.push(element.originalItem.value);
+    });
+    this.subject.students = studentIds;
+    this.studentIDs = studentIds;
+  }
+  saveSubject(submitted, status,subjectForm){
+
+    subjectForm.students = this.studentIDs.join();
     if(submitted && status==="INVALID")
-    return false;
+      return false;
 
     if(this.operation){
-      this.addStudent(studentForm);
+      this.addSubject(subjectForm);
     }else{
-      this.updateStudent(studentForm,this.fromParent.student_id);
+      this.updateSubject(subjectForm,this.fromParent.subject_id);
     }
   }
-  addStudent= (model)=>
+  addSubject= (model)=>
   {
     model.prev_grade_id = model.grade_id;
-    this.studentService.post(model).subscribe(
+    this.subjectService.post(model).subscribe(
       data =>{
          this.activeModal.close({operation:false});
       },
@@ -77,9 +100,9 @@ export class SubjectModalComponent implements OnInit {
     );
   }
 
-  updateStudent= (model,id)=>
+  updateSubject= (model,id)=>
   {
-    this.studentService.put(model,id).subscribe(
+    this.subjectService.put(model,id).subscribe(
       data =>{
          this.operation = true;
          this.activeModal.close({operation: true});
@@ -96,6 +119,32 @@ export class SubjectModalComponent implements OnInit {
   showErrorMessage(message){
     this.toastr.error(message);
   }
-
+ onGradeChange = ()=>{
+   let value: string;
+  if(!this.subject.grade)
+     value = this.myComboBox.getSelectedItem().value;
+  
+  if(value){
+    this.subject.grade = value;
+    this.getStudentsByGade(this.subject.grade);
+  }
+ }
+  getStudentsByGade(id): void{
+    this.studentService.getStudentsByGrade(id).subscribe(
+      data =>{
+        this.studentList = this.createStudentsComboboxData(data.results);
+      },
+      error=>{
+        console.log(error)
+      }
+    );
+  }
+  createStudentsComboboxData =(rawData)=>{
+    let studentObjects = [];
+    rawData.forEach(element => {
+      studentObjects.push({value: element.student_id, label: element.student_number})
+      });
+    return studentObjects;
+  }
 
 }

@@ -37,7 +37,7 @@ export class SubjectsService {
   getGridSettings = ()=>{
     return  [
               {headerName: 'Subject Name', field: 'subject_name', sortable: true, filter: true,checkboxSelection: true},
-              {headerName: 'Grade', field: 'subject_name', sortable: true, filter: true},
+              {headerName: 'Grade', field: 'grade_name', sortable: true, filter: true},
               {headerName: 'Active', field: 'active', sortable: true, filter: true},
               {headerName: 'Date Created', field: 'date_created', sortable: true, filter: true}
             ];
