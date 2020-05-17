@@ -144,6 +144,8 @@ class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=10)
     grade = models.ForeignKey(Grade, models.CASCADE)
+    prev_grade_id = models.IntegerField(default=0)
+    grade_name= models.CharField(max_length=10, default='')
     students = ListCharField( base_field=models.CharField(max_length=(50)), size=6, max_length=1000 , default=[])
     average = models.DecimalField(max_digits= 5,decimal_places=2, default=0.00)
     active = models.BooleanField(default=True)

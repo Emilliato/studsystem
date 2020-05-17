@@ -5,7 +5,7 @@ from django.db import models
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['subject_id','subject_name','grade','students','active','date_created']
+        fields = ['subject_id','subject_name','grade','students','grade_name','active','date_created']
         read_only_fields = ('date_created',)
 
 class SubjectSelectSerializer(serializers.ModelSerializer):

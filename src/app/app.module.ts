@@ -26,13 +26,16 @@ import { StudentModalComponent } from './students/student-modal/student-modal.co
 import { HomeComponent } from './home/home.component';
 import { SigninComponent } from './signin/signin.component';
 import { AuthGuard } from './auth/auth.guard';
+import { SubjectsComponent } from './subjects/subjects.component';
+import { SubjectModalComponent } from './subjects/subject-modal/subject-modal.component';
 
 //Routes
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard],
      children: [
                   { path: 'grades', component: GradeComponent },
-                  { path: 'students', component: StudentsComponent }
+                  { path: 'students', component: StudentsComponent },
+                  { path: 'subjects', component: SubjectsComponent }
                 ]
   },
   {path: 'signin', component:SigninComponent }
@@ -47,7 +50,9 @@ const appRoutes: Routes = [
     GradeModalComponent,
     StudentModalComponent,
     HomeComponent,
-    SigninComponent
+    SigninComponent,
+    SubjectsComponent,
+    SubjectModalComponent
     ],
   imports: [
     BrowserModule,
